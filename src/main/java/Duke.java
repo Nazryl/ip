@@ -52,7 +52,7 @@ public class Duke {
         default:
         }
         
-        System.out.println("Got it. I've added this task: ");
+        System.out.println("Got it. I've added this task:");
         System.out.println(t);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
     }

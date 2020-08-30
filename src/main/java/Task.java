@@ -13,7 +13,7 @@ public class Task {
 	}
 
 	public String getStatusIcon() {
-		return (isDone ? "\u2713" : "\u2718"); // return tick or cross symbols
+		return (isDone ? "Y" : "N");
 	}
 
 	public void markDone() {
