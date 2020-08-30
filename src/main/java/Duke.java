@@ -3,11 +3,14 @@ import java.util.Scanner;
 
 public class Duke {
 
-    static final String COMMAND_LIST = "LIST";
-    static final String COMMAND_BYE = "BYE";
-    static final String COMMAND_DONE = "DONE";
+    private static final String COMMAND_TODO = "TODO";
+    private static final String COMMAND_DEADLINE = "DEADLINE";
+    private static final String COMMAND_EVENT = "EVENT";
+    private static final String COMMAND_LIST = "LIST";
+    private static final String COMMAND_BYE = "BYE";
+    private static final String COMMAND_DONE = "DONE";
 
-    static ArrayList<Task> taskList = new ArrayList<>();
+    private static final ArrayList<Task> taskList = new ArrayList<>();
 
     public static void printHello() {
         printLine();
@@ -26,45 +29,72 @@ public class Duke {
         System.out.println("____________________________________________________________");
     }
 
-    public static void addTask(String echo) {
+    public static void addTask(String commandType, String commandArgs) {
+        Task t = null;
+        String[] splitArgs;
         printLine();
-        Task task = new Task(echo);
-        taskList.add(task);
-        System.out.println("added: " + echo);
+
+        switch (commandType.toUpperCase()) {
+        case COMMAND_TODO:
+            t = new Todo(commandArgs);
+            taskList.add(t);
+            break;
+        case COMMAND_DEADLINE:
+            splitArgs = commandArgs.split("/by ", 2);
+            t = new Deadline(splitArgs[0], splitArgs[1]);
+            taskList.add(t);
+            break;
+        case COMMAND_EVENT:
+            splitArgs = commandArgs.split("/at ", 2);
+            t = new Event(splitArgs[0], splitArgs[1]);
+            taskList.add(t);
+            break;
+        default:
+        }
+        
+        System.out.println("Got it. I've added this task: ");
+        System.out.println(t);
+        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
     }
 
     public static void printList(ArrayList<Task> tasks) {
         int index = 0;
-
         printLine();
         System.out.println("Here are the tasks in your list:");
 
         for (Task task : tasks) {
-            System.out.println(String.format("%d.", ++index) + "[" + task.getStatusIcon() + "] " + task.description);
+            System.out.println(String.format("%d.", ++index)
+                    + task.toString());
         }
     }
 
-    public static void markTask(String inputCommand) {
-        int num = Integer.parseInt(inputCommand.split(" ")[1]);
+    public static void markTask(String commandArgs) {
+        int num = Integer.parseInt(commandArgs);
         Task task = taskList.get(num-1);
-        task.markAsDone();
+        task.markDone();
 
         printLine();
         System.out.println("Nice! I've marked this task as done:");
-        System.out.println("[" + task.getStatusIcon() + "] " + task.description);
+        System.out.println(task);
     }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        String inputCommand;
+        String commandInput;
 
         printHello();
 
         loop: while (true) {
-            inputCommand = in.nextLine();
-            String firstCommand = inputCommand.split(" ")[0];
+            commandInput = in.nextLine();
+            String commandType = commandInput.split(" ")[0];
+            String commandArgs = commandInput.substring(commandInput.indexOf(" ") + 1);
 
-            switch (firstCommand.toUpperCase()) {
+            switch (commandType.toUpperCase()) {
+            case COMMAND_TODO:
+            case COMMAND_DEADLINE:
+            case COMMAND_EVENT:
+                addTask(commandType, commandArgs);
+                break;
             case COMMAND_LIST:
                 printList(taskList);
                 break;
@@ -72,10 +102,9 @@ public class Duke {
                 printBye();
                 break loop;
             case COMMAND_DONE:
-                markTask(inputCommand);
+                markTask(commandArgs);
                 break;
             default:
-                addTask(inputCommand);
             }
 
             printLine();
