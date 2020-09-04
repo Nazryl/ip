@@ -1,9 +1,9 @@
 package task;
 
+import command.CommandVariable;
+
 public class Task {
 
-	public static final String BOOLEAN_YES = "Y";
-	public static final String BOOLEAN_NO = "N";
 	protected String description;
 	protected boolean isDone;
 
@@ -17,7 +17,7 @@ public class Task {
 	}
 
 	public String getStatusIcon() {
-		return (isDone ? BOOLEAN_YES : BOOLEAN_NO);
+		return (isDone ? CommandVariable.BOOLEAN_YES : CommandVariable.BOOLEAN_NO);
 	}
 
 	public void markDone() {

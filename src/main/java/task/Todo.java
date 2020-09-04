@@ -1,6 +1,6 @@
 package task;
 
-import command.CommandVariables;
+import command.CommandVariable;
 
 public class Todo extends Task {
 
@@ -10,6 +10,6 @@ public class Todo extends Task {
 
 	@Override
 	public String toString() {
-		return "[" + CommandVariables.TaskType.T + "]" + super.toString();
+		return "[" + CommandVariable.TaskType.T + "]" + super.toString();
 	}
 }

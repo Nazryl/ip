@@ -4,13 +4,15 @@ import task.Task;
 
 import java.util.ArrayList;
 
-public class CommandVariables {
+public class CommandVariable {
 	public static final String COMMAND_TODO = "TODO";
 	public static final String COMMAND_DEADLINE = "DEADLINE";
 	public static final String COMMAND_EVENT = "EVENT";
 	public static final String COMMAND_LIST = "LIST";
 	public static final String COMMAND_BYE = "BYE";
 	public static final String COMMAND_DONE = "DONE";
+	public static final String BOOLEAN_YES = "Y";
+	public static final String BOOLEAN_NO = "N";
 	public static final ArrayList<Task> taskList = new ArrayList<>();
 
 	public enum TaskType {

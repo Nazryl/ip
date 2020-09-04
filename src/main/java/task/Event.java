@@ -1,6 +1,6 @@
 package task;
 
-import command.CommandVariables;
+import command.CommandVariable;
 
 public class Event extends Task {
 
@@ -13,6 +13,6 @@ public class Event extends Task {
 
 	@Override
 	public String toString() {
-		return "[" + CommandVariables.TaskType.E + "]" + super.toString() + "(by: " + scheduledDate + ")";
+		return "[" + CommandVariable.TaskType.E + "]" + super.toString() + "(by: " + scheduledDate + ")";
 	}
 }
