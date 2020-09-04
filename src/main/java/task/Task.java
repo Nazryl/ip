@@ -1,5 +1,9 @@
+package task;
+
 public class Task {
 
+	public static final String BOOLEAN_YES = "Y";
+	public static final String BOOLEAN_NO = "N";
 	protected String description;
 	protected boolean isDone;
 
@@ -13,7 +17,7 @@ public class Task {
 	}
 
 	public String getStatusIcon() {
-		return (isDone ? "Y" : "N");
+		return (isDone ? BOOLEAN_YES : BOOLEAN_NO);
 	}
 
 	public void markDone() {

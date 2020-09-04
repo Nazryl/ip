@@ -1,3 +1,7 @@
+package task;
+
+import command.CommandVariables;
+
 public class Deadline extends Task {
 
 	protected String dueDate;
@@ -9,6 +13,6 @@ public class Deadline extends Task {
 
 	@Override
 	public String toString() {
-		return "[" + TaskType.D + "]" + super.toString() + "(by: " + dueDate + ")";
+		return "[" + CommandVariables.TaskType.D + "]" + super.toString() + "(by: " + dueDate + ")";
 	}
 }
