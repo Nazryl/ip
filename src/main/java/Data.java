@@ -7,7 +7,7 @@ public class Data {
 		try {
 			printFileContents("data/duke.txt");
 		} catch (FileNotFoundException e) {
-			System.out.println("Duke data not found");
+			System.out.println("Duke file not found!");
 		}
 	}
 
