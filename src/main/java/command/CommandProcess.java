@@ -1,6 +1,6 @@
 package command;
 
-import exception.*;
+import exception.CommandException;
 import task.*;
 
 import java.util.ArrayList;
@@ -8,46 +8,7 @@ import java.util.Scanner;
 
 public class CommandProcess {
 
-	public static void CommandInput() {
-		Scanner in = new Scanner(System.in);
-		String commandInput;
 
-		CommandVariable.printHello();
-
-		loop: while (true) {
-			try {
-				commandInput = in.nextLine();
-				String commandType = commandInput.split(" ")[0];
-				String commandArgs = commandInput.substring(commandInput.indexOf(" ") + 1);
-
-				switch (commandType.toUpperCase()) {
-				case CommandVariable.COMMAND_TODO:
-				case CommandVariable.COMMAND_DEADLINE:
-				case CommandVariable.COMMAND_EVENT:
-					addTask(commandType, commandArgs);
-					break;
-				case CommandVariable.COMMAND_LIST:
-					printList(CommandVariable.taskList);
-					break;
-				case CommandVariable.COMMAND_BYE:
-					CommandVariable.printBye();
-					break loop;
-				case CommandVariable.COMMAND_DONE:
-					markTask(commandArgs);
-					break;
-				case CommandVariable.COMMAND_DELETE:
-					deleteTask(commandArgs);
-					break;
-				default:
-					throw new CommandException("OOPS!!! Enter for me commands!");
-				}
-			}
-			catch (Exception e) {
-				System.out.println("OOPS!!! Enter for me valid commands!");
-			}
-			CommandVariable.printLine();
-		}
-	}
 
 	public static void addTask(String commandType, String commandArgs) {
 		Task t = null;
@@ -98,22 +59,6 @@ public class CommandProcess {
 		}
 	}
 
-	public static void deleteTask(String commandArgs) {
-		int num = Integer.parseInt(commandArgs);
-		try {
-			Task task = CommandVariable.taskList.get(num-1);
-			CommandVariable.taskList.remove(task);
-
-			CommandVariable.printLine();
-			System.out.println("Done! I've removed this task:");
-			System.out.println(task);
-			System.out.println("Now you have " + CommandVariable.taskList.size() + " tasks in the list.");
-		} catch (Exception e) {
-			CommandVariable.printLine();
-			System.out.println("OOPS!!! Enter a valid task to delete!");
-		}
-	}
-
 	public static void printList(ArrayList<Task> tasks) {
 		int index = 0;
 		CommandVariable.printLine();
@@ -135,4 +80,41 @@ public class CommandProcess {
 		System.out.println(task);
 	}
 
+	public static void CommandInput() {
+		Scanner in = new Scanner(System.in);
+		String commandInput;
+
+		CommandVariable.printHello();
+
+		loop: while (true) {
+			try {
+				commandInput = in.nextLine();
+				String commandType = commandInput.split(" ")[0];
+				String commandArgs = commandInput.substring(commandInput.indexOf(" ") + 1);
+
+				switch (commandType.toUpperCase()) {
+				case CommandVariable.COMMAND_TODO:
+				case CommandVariable.COMMAND_DEADLINE:
+				case CommandVariable.COMMAND_EVENT:
+					addTask(commandType, commandArgs);
+					break;
+				case CommandVariable.COMMAND_LIST:
+					printList(CommandVariable.taskList);
+					break;
+				case CommandVariable.COMMAND_BYE:
+					CommandVariable.printBye();
+					break loop;
+				case CommandVariable.COMMAND_DONE:
+					markTask(commandArgs);
+					break;
+				default:
+					throw new CommandException("OOPS!!! Enter for me commands!");
+				}
+			}
+			catch (Exception e) {
+				System.out.println("OOPS!!! Enter for me valid commands!");
+			}
+			CommandVariable.printLine();
+		}
+	}
 }
