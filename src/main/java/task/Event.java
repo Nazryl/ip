@@ -11,8 +11,12 @@ public class Event extends Task {
 		this.scheduledDate = scheduledDate;
 	}
 
+	public String getScheduledDate() {
+		return scheduledDate;
+	}
+
 	@Override
 	public String toString() {
-		return "[" + CommandVariable.TaskType.E + "]" + super.toString() + "(by: " + scheduledDate + ")";
+		return "[" + CommandVariable.TaskType.E + "]" + super.toString() + " (at: " + scheduledDate + ")";
 	}
 }

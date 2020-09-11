@@ -1,4 +1,8 @@
-T | Y | read book
-D | N | return book | June 6th
-E | N | project meeting | Aug 6th 2-4pm
-T | Y | join sports club
+D | 0 | return book | June 6th
+T | 1 | join sports club
+D | 0 | return book | June 6th
+T | 1 | join sports club
+T | 1 | read book
+D | 0 | return book | June 6th
+E | 1 | project meeting | Aug 6th 2-4pm
+D | 0 | he | today

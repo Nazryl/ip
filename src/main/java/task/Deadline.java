@@ -11,8 +11,12 @@ public class Deadline extends Task {
 		this.dueDate = dueDate;
 	}
 
+	public String getDueDate() {
+		return dueDate;
+	}
+
 	@Override
 	public String toString() {
-		return "[" + CommandVariable.TaskType.D + "]" + super.toString() + "(by: " + dueDate + ")";
+		return "[" + CommandVariable.TaskType.D + "]" + super.toString() + " (by: " + dueDate + ")";
 	}
 }

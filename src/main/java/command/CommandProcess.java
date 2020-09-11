@@ -3,6 +3,11 @@ package command;
 import exception.*;
 import task.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -65,7 +70,7 @@ public class CommandProcess {
 				}
 				break;
 			case CommandVariable.COMMAND_DEADLINE:
-				splitArgs = commandArgs.split("/by ", 2);
+				splitArgs = commandArgs.split(" /by ", 2);
 				if (splitArgs[0].toUpperCase().contains(CommandVariable.COMMAND_DEADLINE)) {
 					throw new CommandException("OOPS!!! I need to know your task!");
 				} else if (splitArgs[0].contains("/by ") | splitArgs.length < 2) {
@@ -76,7 +81,7 @@ public class CommandProcess {
 				}
 				break;
 			case CommandVariable.COMMAND_EVENT:
-				splitArgs = commandArgs.split("/at ", 2);
+				splitArgs = commandArgs.split(" /at ", 2);
 				if (splitArgs[0].toUpperCase().contains(CommandVariable.COMMAND_EVENT)) {
 					throw new CommandException("OOPS!!! I need to know your event!");
 				} else if (splitArgs[0].contains("/at ") | splitArgs.length < 2) {
@@ -114,15 +119,46 @@ public class CommandProcess {
 		}
 	}
 
-	public static void printList(ArrayList<Task> tasks) {
+	public static void printList(ArrayList<Task> tasks) throws IOException {
 		int index = 0;
 		CommandVariable.printLine();
 		System.out.println("Here are the tasks in your list:");
 
+		String filePath = "data/duke.txt";
+		File f = new File("data/duke.txt");
+		FileWriter fw;
+
+		if (f.exists()) {
+			fw = new FileWriter(filePath, false);
+		} else {
+			fw = new FileWriter(filePath);
+		}
+
 		for (Task task : tasks) {
 			System.out.println(String.format("%d.", ++index)
 					+ task.toString());
+
+			fw.write(generateString(task) + System.lineSeparator());
 		}
+		fw.close();
+	}
+
+	private static String generateString(Task t) {
+
+		int convertBool = t.getStatusIcon().equals("Y") ? 1 : 0;
+
+		switch (t.getClass().getSimpleName().toUpperCase()) {
+		case CommandVariable.COMMAND_TODO:
+			return CommandVariable.TaskType.T + " | " + convertBool + " | " + t.getDescription();
+		case CommandVariable.COMMAND_DEADLINE:
+			Deadline d = (Deadline)t;
+			return CommandVariable.TaskType.D + " | " + convertBool + " | " + t.getDescription() + " | " + d.getDueDate();
+		case CommandVariable.COMMAND_EVENT:
+			Event e = (Event)t;
+			return CommandVariable.TaskType.E + " | " + convertBool + " | " + t.getDescription() + " | " + e.getScheduledDate();
+		default:
+		}
+		return null;
 	}
 
 	public static void markTask(String commandArgs) {
