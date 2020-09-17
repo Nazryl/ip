@@ -1,9 +1,8 @@
 package task;
 
-import command.CommandVariable;
+import command.TextUi;
 
 public class Task {
-
 	protected String description;
 	protected boolean isDone;
 
@@ -17,7 +16,7 @@ public class Task {
 	}
 
 	public String getStatusIcon() {
-		return (isDone ? CommandVariable.BOOLEAN_YES : CommandVariable.BOOLEAN_NO);
+		return (isDone ? TextUi.BOOLEAN_YES : TextUi.BOOLEAN_NO);
 	}
 
 	public void markDone() {

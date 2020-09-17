@@ -1,9 +1,8 @@
 import command.*;
 
 public class Duke {
-
     public static void main(String[] args) {
-        DataFile.loadData();
+        DataFileManager.loadData();
         CommandProcess.CommandInput();
     }
 }
