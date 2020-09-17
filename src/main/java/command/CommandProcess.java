@@ -6,8 +6,6 @@ import task.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -125,14 +123,14 @@ public class CommandProcess {
 		System.out.println("Here are the tasks in your list:");
 
 		String filePath = "data/duke.txt";
-		File f = new File("data/duke.txt");
+		String fileDir = "data";
+		File fileDirectory = new File(fileDir);
 		FileWriter fw;
 
-		if (f.exists()) {
-			fw = new FileWriter(filePath, false);
-		} else {
-			fw = new FileWriter(filePath);
+		if (!fileDirectory.exists()) {
+			fileDirectory.mkdir();
 		}
+		fw = new FileWriter(filePath);
 
 		for (Task task : tasks) {
 			System.out.println(String.format("%d.", ++index)
