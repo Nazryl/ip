@@ -3,7 +3,10 @@ package util;
 import exception.*;
 import task.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import static java.util.stream.Collectors.toList;
 
 public class CommandUi {
 
@@ -35,6 +38,9 @@ public class CommandUi {
                     break;
                 case TextUi.COMMAND_DELETE:
                     deleteTask(taskList, commandArgs[1]);
+                    break;
+                case TextUi.COMMAND_FIND:
+                    findTask(taskList, commandArgs[1]);
                     break;
                 case "":
                     throw new CommandException(DukeException.EXCEPTION_MISSING_COMMANDS);
@@ -103,6 +109,10 @@ public class CommandUi {
         }
     }
 
+    /**
+     * Lists out all tasks in the taskList.
+     * @param taskList The task stored in the arraylists.
+     */
     public static void printList(TaskList taskList) {
         int index = 0;
         TextUi.printLine();
@@ -114,6 +124,11 @@ public class CommandUi {
         }
     }
 
+    /**
+     * Deletes task in the taskList.
+     * @param taskList The task stored in the arraylists.
+     * @param commandArgs The index of the task to be deleted.
+     */
     public static void deleteTask(TaskList taskList, String commandArgs) throws DukeException {
         int num = Integer.parseInt(commandArgs);
         Task task = null;
@@ -132,6 +147,11 @@ public class CommandUi {
         TextUi.print("Now you have " + taskList.getSize() + " tasks in the list.");
     }
 
+    /**
+     * Marks a task in the taskList as done.
+     * @param taskList The task stored in the arraylists.
+     * @param commandArgs The index of the task to be deleted.
+     */
     public static void markTask(TaskList taskList, String commandArgs) throws DukeException {
         int num = Integer.parseInt(commandArgs);
         Task task = null;
@@ -148,4 +168,32 @@ public class CommandUi {
         System.out.println(task);
     }
 
+    /**
+     * Finds a task in the taskList as done.
+     * @param taskList The task stored in the arraylists.
+     * @param commandArgs The index of the task to be deleted.
+     */
+    public static void findTask(TaskList taskList, String commandArgs) throws DukeException {
+        int index = 0;
+        ArrayList<Task> filteredTaskList = null;
+
+        try {
+            filteredTaskList = (ArrayList<Task>) taskList.getTasks().stream()
+                    .filter((s) -> s.getDescription().contains(commandArgs))
+                    .collect(toList());
+            if (filteredTaskList.isEmpty()) {
+                throw new DukeException(DukeException.EXCEPTION_MARK_ERROR);
+            }
+        } catch (Exception e) {
+            throw new DukeException(DukeException.EXCEPTION_MARK_ERROR);
+        }
+
+        TextUi.printLine();
+        TextUi.print("Here are the matching tasks in your list:");
+
+        for (Task task : filteredTaskList) {
+            TextUi.print(String.format("%d.", ++index)
+                    + task.toString());
+        }
+    }
 }

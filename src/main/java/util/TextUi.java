@@ -1,9 +1,5 @@
 package util;
 
-import task.*;
-
-import java.util.ArrayList;
-
 public class TextUi {
     public static final String COMMAND_TODO = "TODO";
     public static final String COMMAND_DEADLINE = "DEADLINE";
@@ -12,6 +8,7 @@ public class TextUi {
     public static final String COMMAND_BYE = "BYE";
     public static final String COMMAND_DONE = "DONE";
     public static final String COMMAND_DELETE = "DELETE";
+    public static final String COMMAND_FIND = "FIND";
     public static final String BOOLEAN_YES = "Y";
     public static final String BOOLEAN_NO = "N";
     public static final String FILE_PATH = "data/duke.txt";
