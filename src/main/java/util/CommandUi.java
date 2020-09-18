@@ -55,6 +55,12 @@ public class CommandUi {
         } while (!TextUi.COMMAND_BYE.equals(commandInput));
     }
 
+    /**
+     * Adds task in the taskList.
+     * @param taskList The task stored in the arraylists.
+     * @param commandType The command type to be added.
+     * @param commandArgs The arguments to be added.
+     */
     public static void addTask(TaskList taskList, String commandType, String commandArgs) {
         Task task = null;
         String[] splitArgs;
