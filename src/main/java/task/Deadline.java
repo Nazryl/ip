@@ -1,22 +1,22 @@
 package task;
 
-import command.TextUi;
+import util.TextUi;
 
 public class Deadline extends Task {
 
-	protected String dueDate;
+    protected String dueDate;
 
-	public Deadline(String description, String dueDate) {
-		super(description);
-		this.dueDate = dueDate;
-	}
+    public Deadline(String description, String dueDate) {
+        super(description);
+        this.dueDate = dueDate;
+    }
 
-	public String getDueDate() {
-		return dueDate;
-	}
+    public String getDueDate() {
+        return dueDate;
+    }
 
-	@Override
-	public String toString() {
-		return "[" + TextUi.TaskType.D + "]" + super.toString() + " (by: " + dueDate + ")";
-	}
+    @Override
+    public String toString() {
+        return "[" + TextUi.TaskType.D + "]" + super.toString() + " (by: " + dueDate + ")";
+    }
 }

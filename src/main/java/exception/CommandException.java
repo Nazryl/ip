@@ -2,7 +2,7 @@ package exception;
 
 public class CommandException extends DukeException {
 
-	public CommandException(String message) {
-		super(message);
-	}
+    public CommandException(String message) {
+        super(message);
+    }
 }

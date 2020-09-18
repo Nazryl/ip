@@ -1,30 +1,31 @@
 package task;
 
-import command.TextUi;
+import util.TaskList;
+import util.TextUi;
 
-public class Task {
-	protected String description;
-	protected boolean isDone;
+public class Task extends TaskList {
+    protected String description;
+    protected boolean isDone;
 
-	public Task(String description) {
-		this.description = description;
-		this.isDone = false;
-	}
+    public Task(String description) {
+        this.description = description;
+        this.isDone = false;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getStatusIcon() {
-		return (isDone ? TextUi.BOOLEAN_YES : TextUi.BOOLEAN_NO);
-	}
+    public String getStatusIcon() {
+        return (isDone ? TextUi.BOOLEAN_YES : TextUi.BOOLEAN_NO);
+    }
 
-	public void markDone() {
-		this.isDone = true;
-	}
+    public void markDone() {
+        this.isDone = true;
+    }
 
-	@Override
-	public String toString() {
-		return "[" + getStatusIcon() + "] " + description;
-	}
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
+    }
 }

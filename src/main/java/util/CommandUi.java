@@ -1,15 +1,13 @@
-package command;
+package util;
 
 import exception.*;
 import task.*;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Scanner;
 
-public class CommandProcess {
+public class CommandUi {
 
-    public static void CommandInput() {
+    public static void CommandInput(TaskList taskList) {
         Scanner in = new Scanner(System.in);
         String commandInput = null;
         TextUi.printHello();
@@ -23,20 +21,20 @@ public class CommandProcess {
                 case TextUi.COMMAND_TODO:
                 case TextUi.COMMAND_DEADLINE:
                 case TextUi.COMMAND_EVENT:
-                    addTask(commandArgs[0], commandArgs[1]);
+                    addTask(taskList, commandArgs[0], commandArgs[1]);
                     break;
                 case TextUi.COMMAND_LIST:
-                    printList();
+                    printList(taskList);
                     break;
                 case TextUi.COMMAND_BYE:
                     TextUi.printBye();
                     commandInput = commandArgs[0].toUpperCase();
                     break;
                 case TextUi.COMMAND_DONE:
-                    markTask(commandArgs[1]);
+                    markTask(taskList, commandArgs[1]);
                     break;
                 case TextUi.COMMAND_DELETE:
-                    deleteTask(commandArgs[1]);
+                    deleteTask(taskList, commandArgs[1]);
                     break;
                 case "":
                     throw new CommandException(DukeException.EXCEPTION_MISSING_COMMANDS);
@@ -51,11 +49,13 @@ public class CommandProcess {
                 TextUi.print(e.toString());
             }
             TextUi.printLine();
-            saveList();
+
+            DataManager.saveList(taskList.getTasks());
+
         } while (!TextUi.COMMAND_BYE.equals(commandInput));
     }
 
-    public static void addTask(String commandType, String commandArgs) {
+    public static void addTask(TaskList taskList, String commandType, String commandArgs) {
         Task task = null;
         String[] splitArgs;
         TextUi.printLine();
@@ -67,7 +67,7 @@ public class CommandProcess {
                     throw new CommandException(DukeException.EXCEPTION_MISSING_TASK);
                 } else {
                     task = new Todo(commandArgs);
-                    TextUi.taskList.add(task);
+                    taskList.addTask(task);
                 }
                 break;
             case TextUi.COMMAND_DEADLINE:
@@ -78,7 +78,7 @@ public class CommandProcess {
                     throw new CommandException(DukeException.EXCEPTION_MISSING_DATE);
                 } else {
                     task = new Deadline(splitArgs[0], splitArgs[1]);
-                    TextUi.taskList.add(task);
+                    taskList.addTask(task);
                 }
                 break;
             case TextUi.COMMAND_EVENT:
@@ -89,7 +89,7 @@ public class CommandProcess {
                     throw new CommandException(DukeException.EXCEPTION_MISSING_TIME);
                 } else {
                     task = new Event(splitArgs[0], splitArgs[1]);
-                    TextUi.taskList.add(task);
+                    taskList.addTask(task);
                 }
                 break;
             default:
@@ -97,19 +97,30 @@ public class CommandProcess {
             }
             TextUi.print("Got it. I've added this task:");
             System.out.println(task);
-            TextUi.print("Now you have " + TextUi.taskList.size() + " tasks in the list.");
+            TextUi.print("Now you have " + taskList.getSize() + " tasks in the list.");
         } catch (DukeException e) {
             TextUi.print(e.toString());
         }
     }
 
-    public static void deleteTask(String commandArgs) throws DukeException {
+    public static void printList(TaskList taskList) {
+        int index = 0;
+        TextUi.printLine();
+        TextUi.print("Here are the tasks in your list:");
+
+        for (Task task : taskList.getTasks()) {
+            TextUi.print(String.format("%d.", ++index)
+                    + task.toString());
+        }
+    }
+
+    public static void deleteTask(TaskList taskList, String commandArgs) throws DukeException {
         int num = Integer.parseInt(commandArgs);
         Task task = null;
 
         try {
-            task = TextUi.taskList.get(num - 1);
-            TextUi.taskList.remove(task);
+            task = taskList.getTask(num);
+            taskList.removeTask(num);
 
         } catch (Exception e) {
             throw new DukeException(DukeException.EXCEPTION_INVALID_DELETE);
@@ -118,72 +129,23 @@ public class CommandProcess {
         TextUi.printLine();
         TextUi.print("Done! I've removed this task:");
         System.out.println(task);
-        TextUi.print("Now you have " + TextUi.taskList.size() + " tasks in the list.");
+        TextUi.print("Now you have " + taskList.getSize() + " tasks in the list.");
     }
 
-    public static void printList() {
-        int index = 0;
-        TextUi.printLine();
-        TextUi.print("Here are the tasks in your list:");
-
-        for (Task task : TextUi.taskList) {
-            TextUi.print(String.format("%d.", ++index)
-                    + task.toString());
-        }
-    }
-
-    private static String generateString(Task t) {
-        int statusBool = t.getStatusIcon().equals(TextUi.BOOLEAN_YES) ? TextUi.BOOLEAN_YES_NUM : TextUi.BOOLEAN_NO_NUM;
-
-        switch (t.getClass().getSimpleName().toUpperCase()) {
-        case TextUi.COMMAND_TODO:
-            return TextUi.TaskType.T + " | " + statusBool + " | " + t.getDescription();
-        case TextUi.COMMAND_DEADLINE:
-            Deadline d = (Deadline) t;
-            return TextUi.TaskType.D + " | " + statusBool + " | " + t.getDescription() + " | " + d.getDueDate();
-        case TextUi.COMMAND_EVENT:
-            Event e = (Event) t;
-            return TextUi.TaskType.E + " | " + statusBool + " | " + t.getDescription() + " | " + e.getScheduledDate();
-        default:
-        }
-        return "";
-    }
-
-    public static void markTask(String commandArgs) throws DukeException {
+    public static void markTask(TaskList taskList, String commandArgs) throws DukeException {
         int num = Integer.parseInt(commandArgs);
         Task task = null;
 
-        try{
-            task = TextUi.taskList.get(num - 1);
+        try {
+            task = taskList.getTask(num);
+            task.markDone();
         } catch (Exception e) {
             throw new DukeException(DukeException.EXCEPTION_MARK_ERROR);
         }
 
-        task.markDone();
-
         TextUi.printLine();
         TextUi.print("Nice! I've marked this task as done:");
         System.out.println(task);
-    }
-
-    public static void saveList() {
-        try {
-            File fileDirectory = new File(TextUi.FILE_DIR);
-            FileWriter fw;
-
-            if (!fileDirectory.exists()) {
-                fileDirectory.mkdir();
-            }
-
-            fw = new FileWriter(TextUi.FILE_PATH);
-
-            for (Task task : TextUi.taskList) {
-                fw.write(generateString(task) + System.lineSeparator());
-            }
-            fw.close();
-        } catch (Exception e) {
-            TextUi.print(DukeException.EXCEPTION_FILE_SAVE_ERROR);
-        }
     }
 
 }
