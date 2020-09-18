@@ -77,7 +77,8 @@ public class CommandUi {
                 } else if (splitArgs[0].contains("/by ") | splitArgs.length < 2) {
                     throw new CommandException(DukeException.EXCEPTION_MISSING_DATE);
                 } else {
-                    task = new Deadline(splitArgs[0], splitArgs[1]);
+                    String dateTime = TextUi.datetimeFormat(splitArgs[1]);
+                    task = new Deadline(splitArgs[0], dateTime);
                     taskList.addTask(task);
                 }
                 break;
@@ -88,7 +89,8 @@ public class CommandUi {
                 } else if (splitArgs[0].contains("/at ") | splitArgs.length < 2) {
                     throw new CommandException(DukeException.EXCEPTION_MISSING_TIME);
                 } else {
-                    task = new Event(splitArgs[0], splitArgs[1]);
+                    String dateTime = TextUi.datetimeFormat(splitArgs[1]);
+                    task = new Event(splitArgs[0], dateTime);
                     taskList.addTask(task);
                 }
                 break;
