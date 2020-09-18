@@ -1,5 +1,16 @@
 package util;
 
+import exception.*;
+import task.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+
 public class TextUi {
     public static final String COMMAND_TODO = "TODO";
     public static final String COMMAND_DEADLINE = "DEADLINE";
@@ -44,4 +55,25 @@ public class TextUi {
         print("Duke file loaded!");
     }
 
+    public static String datetimeFormat(String datetime) throws CommandException {
+        Date date = new Date();
+        String dateReform;
+        SimpleDateFormat datetimeReformat = new SimpleDateFormat("MMM d yyyy h.mma");
+        SimpleDateFormat dateReformat = new SimpleDateFormat("MMM d yyyy");
+
+        try {
+            if (datetime.contains(" ")) {
+                SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HHmm");
+                date = datetimeFormat.parse(datetime);
+                dateReform = datetimeReformat.format(date);
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                date = dateFormat.parse(datetime);
+                dateReform = dateReformat.format(date);
+            }
+        } catch (ParseException e) {
+            throw new CommandException(DukeException.EXCEPTION_INVALID_DATETIME);
+        }
+        return dateReform;
+    }
 }

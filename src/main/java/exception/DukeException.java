@@ -11,6 +11,7 @@ public class DukeException extends Exception {
     public static final String EXCEPTION_FILE_SAVE_ERROR = "OOPS!!! File fail to save!";
     public static final String EXCEPTION_FILE_LOAD_ERROR = "OOPS!!! File not found!";
     public static final String EXCEPTION_MARK_ERROR = "OOPS!!! Task not found!";
+    public static final String EXCEPTION_INVALID_DATETIME = "OOPS!!! Enter for me a valid date and time!";
 
     private String message;
 
