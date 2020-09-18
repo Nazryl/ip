@@ -1,7 +1,6 @@
 package util;
 
-import exception.CommandException;
-import exception.DukeException;
+import exception.*;
 import task.*;
 
 import java.text.ParseException;
@@ -20,6 +19,7 @@ public class TextUi {
     public static final String COMMAND_BYE = "BYE";
     public static final String COMMAND_DONE = "DONE";
     public static final String COMMAND_DELETE = "DELETE";
+    public static final String COMMAND_FIND = "FIND";
     public static final String BOOLEAN_YES = "Y";
     public static final String BOOLEAN_NO = "N";
     public static final String FILE_PATH = "data/duke.txt";
