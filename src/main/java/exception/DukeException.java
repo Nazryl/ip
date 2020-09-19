@@ -20,10 +20,6 @@ public class DukeException extends Exception {
         this.message = message;
     }
 
-    public void setException(String message) {
-        this.message = message;
-    }
-
     @Override
     public String toString() {
         return message;

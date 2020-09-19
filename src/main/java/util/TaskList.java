@@ -4,6 +4,9 @@ import task.Task;
 
 import java.util.ArrayList;
 
+/**
+ * Stores the list of tasks and supports tasks such as getTask, addTask and removeTask.
+ */
 public class TaskList {
     private ArrayList<Task> taskList;
 

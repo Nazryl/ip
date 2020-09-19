@@ -9,13 +9,21 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving of tasks from the data file.
+ */
 public class DataManager {
     private static String filePath;
 
+    /**
+     * Initializes a <code>Storage</code> class with the given file path.
+     *
+     * @param filePath The data file path in which the tasks are stored.
+     */
     public DataManager(String filePath) {
         this.filePath = filePath;
         try {
-            File fileDirectory = new File(TextUi.FILE_DIR);
+            File fileDirectory = new File(TextUi.FILE_DIR); // Declare folder name
 
             if (!fileDirectory.exists()) {
                 fileDirectory.mkdir();
@@ -26,6 +34,12 @@ public class DataManager {
         }
     }
 
+    /**
+     * Loads the tasks from the data file.
+     *
+     * @return A task list that contains the existing tasks.
+     * @throws FileNotFoundException If the data is not found.
+     */
     public TaskList loadTasks() throws FileNotFoundException {
         File dukeData = new File(filePath);
         ArrayList<Task> taskList = new ArrayList<>();
@@ -56,10 +70,17 @@ public class DataManager {
         return new TaskList(taskList);
     }
 
+    /**
+     * Converts a single string to be written to the data file.
+     *
+     * @param taskList The task stored in the arraylists.
+     * @return A string of all of the task in data form.
+     */
     public static String generateTaskString(ArrayList<Task> taskList) {
         StringBuilder toWrite = new StringBuilder();
         for (Task task : taskList) {
-            int statusBool = task.getStatusIcon().equals(TextUi.BOOLEAN_YES) ? TextUi.BOOLEAN_YES_NUM : TextUi.BOOLEAN_NO_NUM;
+            int statusBool = task.getStatusIcon().equals(TextUi.BOOLEAN_YES) ? TextUi.BOOLEAN_YES_NUM :
+                    TextUi.BOOLEAN_NO_NUM;
             String className = task.getClass().getSimpleName().toUpperCase();
 
             switch (className) {
@@ -81,6 +102,11 @@ public class DataManager {
         return toWrite.toString();
     }
 
+    /**
+     * Save the tasks from the Task list.
+     *
+     * @param taskList The task stored in the arraylists.
+     */
     public static void saveList(ArrayList<Task> taskList) {
         try {
             FileWriter fw = new FileWriter(filePath);

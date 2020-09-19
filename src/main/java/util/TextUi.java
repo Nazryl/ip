@@ -6,6 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Display the user interface for all AllFather.
+ * Declaration of variables.
+ */
 public class TextUi {
     public static final String COMMAND_TODO = "TODO";
     public static final String COMMAND_DEADLINE = "DEADLINE";
@@ -22,10 +26,16 @@ public class TextUi {
     public static final int BOOLEAN_YES_NUM = 1;
     public static final int BOOLEAN_NO_NUM = 0;
 
+    /**
+     * Task types to be called.
+     */
     public enum TaskType {
         D, E, T
     }
 
+    /**
+     * Shows the welcome message on AllFather starts up.
+     */
     public static void printHello() {
         printLine();
         print("Greetings Peasants! I'm the Almighty Allfather!");
@@ -33,6 +43,9 @@ public class TextUi {
         printLine();
     }
 
+    /**
+     * Shows the goodbye message when AllFather shuts down.
+     */
     public static void printBye() {
         printLine();
         print("Begone!");
@@ -50,14 +63,21 @@ public class TextUi {
         print("Duke file loaded!");
     }
 
-    public static String datetimeFormat(String datetime) throws CommandException {
-        Date date = new Date();
+    /**
+     * Gets the commands and handles from the user input.
+     *
+     * @param datetime The date and time of the task.
+     * @return A new date format to be added to the task.
+     * @throws DukeException If the date and time format is wrong.
+     */
+    public static String datetimeFormat(String datetime) throws DukeException {
+        Date date;
         String dateReform;
         SimpleDateFormat datetimeReformat = new SimpleDateFormat("MMM d yyyy h.mma");
         SimpleDateFormat dateReformat = new SimpleDateFormat("MMM d yyyy");
 
         try {
-            if (datetime.contains(" ")) {
+            if (datetime.contains(" ")) {   // If parameters contains time
                 SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HHmm");
                 date = datetimeFormat.parse(datetime);
                 dateReform = datetimeReformat.format(date);
@@ -67,7 +87,7 @@ public class TextUi {
                 dateReform = dateReformat.format(date);
             }
         } catch (ParseException e) {
-            throw new CommandException(DukeException.EXCEPTION_INVALID_DATETIME);
+            throw new DukeException(DukeException.EXCEPTION_INVALID_DATETIME);
         }
         return dateReform;
     }

@@ -3,6 +3,9 @@ package task;
 import util.TaskList;
 import util.TextUi;
 
+/**
+ * Represents a task in the class. It handles task description and its completion.
+ */
 public class Task extends TaskList {
     protected String description;
     protected boolean isDone;

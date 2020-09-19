@@ -10,6 +10,11 @@ import static java.util.stream.Collectors.toList;
 
 public class CommandUi {
 
+    /**
+     * Gets the commands and handles from the user input.
+     *
+     * @param taskList The task stored in the arraylists.
+     */
     public static void CommandInput(TaskList taskList) {
         Scanner in = new Scanner(System.in);
         String commandInput = null;
@@ -63,12 +68,13 @@ public class CommandUi {
 
     /**
      * Adds task in the taskList.
-     * @param taskList The task stored in the arraylists.
+     *
+     * @param taskList    The task stored in the arraylists.
      * @param commandType The command type to be added.
      * @param commandArgs The arguments to be added.
      */
     public static void addTask(TaskList taskList, String commandType, String commandArgs) {
-        Task task = null;
+        Task task;
         String[] splitArgs;
         TextUi.printLine();
 
@@ -119,6 +125,7 @@ public class CommandUi {
 
     /**
      * Lists out all tasks in the taskList.
+     *
      * @param taskList The task stored in the arraylists.
      */
     public static void printList(TaskList taskList) {
@@ -134,12 +141,14 @@ public class CommandUi {
 
     /**
      * Deletes task in the taskList.
-     * @param taskList The task stored in the arraylists.
+     *
+     * @param taskList    The task stored in the arraylists.
      * @param commandArgs The index of the task to be deleted.
+     * @throws DukeException If the index does not exist.
      */
     public static void deleteTask(TaskList taskList, String commandArgs) throws DukeException {
         int num = Integer.parseInt(commandArgs);
-        Task task = null;
+        Task task;
 
         try {
             task = taskList.getTask(num);
@@ -157,12 +166,14 @@ public class CommandUi {
 
     /**
      * Marks a task in the taskList as done.
-     * @param taskList The task stored in the arraylists.
+     *
+     * @param taskList    The task stored in the arraylists.
      * @param commandArgs The index of the task to be deleted.
+     * @throws DukeException If the index does not exist.
      */
     public static void markTask(TaskList taskList, String commandArgs) throws DukeException {
         int num = Integer.parseInt(commandArgs);
-        Task task = null;
+        Task task;
 
         try {
             task = taskList.getTask(num);
@@ -178,12 +189,14 @@ public class CommandUi {
 
     /**
      * Finds a task in the taskList as done.
-     * @param taskList The task stored in the arraylists.
+     *
+     * @param taskList    The task stored in the arraylists.
      * @param commandArgs The index of the task to be deleted.
+     * @throws DukeException If the task is not found.
      */
     public static void findTask(TaskList taskList, String commandArgs) throws DukeException {
         int index = 0;
-        ArrayList<Task> filteredTaskList = null;
+        ArrayList<Task> filteredTaskList;
 
         try {
             filteredTaskList = (ArrayList<Task>) taskList.getTasks().stream()
