@@ -1,5 +1,9 @@
 package exception;
 
+/**
+ * Extends from Exception class and constitutes exceptions in AllFather.
+ * Stores all error messages.
+ */
 public class DukeException extends Exception {
     public static final String EXCEPTION_MISSING_COMMANDS = "OOPS!!! Enter for me commands!";
     public static final String EXCEPTION_INVALID_COMMANDS = "OOPS!!! Enter for me valid commands!";
